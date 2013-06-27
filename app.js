@@ -6,7 +6,20 @@ var express = require('express'),
   routes = require('./routes'),
   nfc = require('./routes/nfc'),
   http = require('http'),
-  path = require('path');
+  path = require('path'),
+  winston = require('winston'); //winston logging framework
+
+require('winston-mongodb').MongoDB; //and a mongodb transport for it
+
+/**
+* Setup the winston logger with console and mongodb transports.
+*/
+var logger = new (winston.Logger)({
+  transports: [
+    new (winston.transports.Console)(),
+    new (winston.transports.MongoDB)({ 'db': 'dd', 'collection':'logs'})
+  ]
+});
 
 var app = express();
 
@@ -36,18 +49,25 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
 server.listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+  logger.info("Express server listening on port " + app.get('port'));
+  //console.log("Express server listening on port " + app.get('port'));
 });
 
 // routes for nfc input
 app.get('/nfcadd', function(req, res){
   var id = req.param('id');
+  var reader = req.param('reader');
+
+  logger.info('nfc_event',{'action':'add', 'id':id, 'reader':reader} );
   io.sockets.emit('nfc-add', {id: id});
   res.send("Adding nfc id: " + id);
 });
 
 app.get('/nfcremove', function(req, res){
   var id = req.param('id');
+  var reader = req.param('reader');
+
+  logger.info('nfc_event', {'action':'remove', 'id':id, 'reader':reader} );
   io.sockets.emit('nfc-remove', {id: id});
   res.send("Removing nfc id: " + id);
 });
