@@ -7,9 +7,10 @@ var express = require('express'),
   nfc = require('./routes/nfc'),
   http = require('http'),
   path = require('path'),
-  winston = require('winston'); //winston logging framework
+  winston = require('winston'), //winston logging framework
+  dd_rest = require('./public/javascripts/dd_rest.js'); // the rest api for the cake server
 
-require('winston-mongodb').MongoDB; //and a mongodb transport for it
+require('winston-mongodb').MongoDB; //and a mongodb transport for winston
 
 /**
 * Setup the winston logger with console and mongodb transports.
@@ -72,6 +73,17 @@ app.get('/nfcremove', function(req, res){
   io.sockets.emit('nfc-remove', {id: id, reader: reader});
   res.send("Removing nfc id: " + id);
 });
+
+//routes for comm with the dd cake server
+app.get('/get_objects', function(req, res){
+  dd_rest.getObjects( function(statusCode, result){
+    res.statusCode = statusCode;
+    //TODO: possibly do some processing of the json results.
+    io.sockets.emit('dd-objects', result);
+    res.end();
+  });
+});
+
 
 // websockets connection and events
 io.sockets.on('connection', function (socket) {

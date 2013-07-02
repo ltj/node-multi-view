@@ -1,3 +1,8 @@
+//
+// Usage: 
+// install vows: npm install -g vows
+// run tests: 'vows' in root directory
+//
 var vows = require('vows'),
 	assert = require('assert'),
 	ddrest = require('../public/javascripts/dd_rest.js');
@@ -29,6 +34,7 @@ suite.addBatch({
 			assert.isObject(result);
 		}
 	},
+	//as of now this fails as the cake server does not respond to .json
 	'ddrest.getRelations()': {
 		topic: function() {
 			ddrest.getRelations(this.callback);

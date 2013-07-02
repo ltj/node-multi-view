@@ -20,6 +20,11 @@ socket.on('nfc-remove', function(data){
 	console.log('remove');
 });
 
+socket.on('dd-objects', function(data){
+	console.log('dd-objects');
+	console.log(data);
+});
+
 function cmd1(data) {
 	socket.emit('tablet-cmd1', data);
 	console.log("cmd1");
