@@ -59,7 +59,8 @@ app.get('/nfcadd', function(req, res){
   var reader = req.param('reader');
 
   logger.info('nfc_event',{'action':'add', 'id':id, 'reader':reader} );
-  io.sockets.emit('nfc-add', {id: id});
+
+  io.sockets.emit('nfc-add', {id: id, reader: reader});
   res.send("Adding nfc id: " + id);
 });
 
@@ -68,7 +69,7 @@ app.get('/nfcremove', function(req, res){
   var reader = req.param('reader');
 
   logger.info('nfc_event', {'action':'remove', 'id':id, 'reader':reader} );
-  io.sockets.emit('nfc-remove', {id: id});
+  io.sockets.emit('nfc-remove', {id: id, reader: reader});
   res.send("Removing nfc id: " + id);
 });
 
