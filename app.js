@@ -84,6 +84,16 @@ app.get('/get_objects', function(req, res){
   });
 });
 
+//routes for comm with the dd cake server
+app.get('/get_relations', function(req, res){
+  dd_rest.getRelations( function(statusCode, result){
+    res.statusCode = statusCode;
+    //TODO: possibly do some processing of the json results.
+    io.sockets.emit('dd-relations', result);
+    res.end();
+  });
+});
+
 
 // websockets connection and events
 io.sockets.on('connection', function (socket) {

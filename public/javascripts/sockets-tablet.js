@@ -25,6 +25,11 @@ socket.on('dd-objects', function(data){
 	console.log(data);
 });
 
+socket.on('dd-relations', function(data){
+	console.log('dd-relations');
+	console.log(data);
+});
+
 function cmd1(data) {
 	socket.emit('tablet-cmd1', data);
 	console.log("cmd1");
