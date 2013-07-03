@@ -8,7 +8,7 @@ var express = require('express'),
   http = require('http'),
   path = require('path'),
   winston = require('winston'), //winston logging framework
-  dd_rest = require('./public/javascripts/dd_rest.js'); // the rest api for the cake server
+  dd_rest = require('./dd_rest'); // the rest api for the cake server
 
 require('winston-mongodb').MongoDB; //and a mongodb transport for winston
 

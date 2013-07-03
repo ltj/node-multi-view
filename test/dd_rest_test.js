@@ -5,7 +5,7 @@
 //
 var vows = require('vows'),
 	assert = require('assert'),
-	ddrest = require('../public/javascripts/dd_rest.js');
+	ddrest = require('../dd_rest.js');
 
 
 
