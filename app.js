@@ -94,6 +94,20 @@ app.get('/get_relations', function(req, res){
   });
 });
 
+//routes for comm with the dd cake server
+app.get('/get_full_graph', function(req, res){
+  dd_rest.getRelations( function(relCode, relations){
+    dd_rest.getObjects( function(objCode, objects){
+      res.statusCode = objCode;
+      var graph = {};
+      graph.nodes = objects.designObjects;
+      graph.links = relations.designObjectsRelations;
+      io.sockets.emit('dd-full-graph', graph);
+      res.end();
+    });
+  });
+});
+
 
 // websockets connection and events
 io.sockets.on('connection', function (socket) {

@@ -30,6 +30,11 @@ socket.on('dd-relations', function(data){
 	console.log(data);
 });
 
+socket.on('dd-full-graph', function(data){
+	console.log('dd-full-graph');
+	console.log(data);
+});
+
 function cmd1(data) {
 	socket.emit('tablet-cmd1', data);
 	console.log("cmd1");
